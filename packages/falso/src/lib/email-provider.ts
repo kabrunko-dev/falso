@@ -1,6 +1,10 @@
 import { FakeOptions, fake } from './core/core';
 import { data } from './email-provider.json';
 
+interface EmailProviderOptions extends FakeOptions {
+  providers?: string | string[];
+}
+
 /**
  * Generate a random email provider.
  *
@@ -21,10 +25,10 @@ import { data } from './email-provider.json';
  * randEmailProvider({ providers: ['niceprovider.com', 'otherdomain.com'] })
  *
  */
-export function randEmailProvider<Options extends FakeOptions = never>(
-  providers?: string | string[],
+export function randEmailProvider<Options extends EmailProviderOptions = never>(
   options?: Options
 ) {
+  const providers = options?.providers;
   let providerList = data;
 
   if (providers) {

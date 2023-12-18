@@ -77,7 +77,7 @@ export function randEmail<Options extends EmailOptions = never>(
   options?: Options
 ) {
   const factory = () => {
-    const emailProvider = randEmailProvider(options?.providers);
+    const emailProvider = randEmailProvider({ providers: options?.providers });
     const formattedName = randFormattedName(options);
     const emailSuffix = options?.suffix ?? randDomainSuffix();
 
