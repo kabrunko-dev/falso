@@ -9,7 +9,7 @@ import { randLastName } from './last-name';
 export interface EmailOptions extends FakeOptions {
   firstName?: string;
   lastName?: string;
-  provider?: string;
+  providers?: string | string[];
   suffix?: string;
   nameSeparator?: NameSeparators;
 }
@@ -77,7 +77,7 @@ export function randEmail<Options extends EmailOptions = never>(
   options?: Options
 ) {
   const factory = () => {
-    const emailProvider = options?.provider ?? randEmailProvider();
+    const emailProvider = randEmailProvider(options?.providers);
     const formattedName = randFormattedName(options);
     const emailSuffix = options?.suffix ?? randDomainSuffix();
 

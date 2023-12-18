@@ -14,9 +14,23 @@ import { data } from './email-provider.json';
  *
  * randEmailProvider({ length: 10 })
  *
+ * @example
+ * // using a single string
+ * randEmailProvider({ providers: 'myprovider.com' })
+ * // using an array
+ * randEmailProvider({ providers: ['niceprovider.com', 'otherdomain.com'] })
+ *
  */
 export function randEmailProvider<Options extends FakeOptions = never>(
+  providers?: string | string[],
   options?: Options
 ) {
-  return fake(data, options);
+  let providerList = data;
+
+  if (providers) {
+    if (!Array.isArray(providers)) return providers;
+    providerList = providers;
+  }
+
+  return fake(providerList, options);
 }

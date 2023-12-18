@@ -101,23 +101,44 @@ describe('email', () => {
     });
   });
 
-  describe('provider is passed', () => {
-    let provider: string;
+  describe('providers is passed', () => {
+    let providers: string | string[];
 
-    beforeEach(() => {
-      provider = 'testprovider';
+    describe('value is a single string', () => {
+      beforeEach(() => {
+        providers = 'testprovider';
+      });
+
+      it('should return a random email with passed provider', () => {
+        const result = randEmail({ providers });
+
+        expect(result).toContain(`@${providers}.`);
+      });
+
+      it('should return valid email format', () => {
+        const result = randEmail({ providers });
+
+        expect(result.match(validEmailRegex)).toBeTruthy();
+      });
     });
 
-    it('should return a random email with passed provider', () => {
-      const result = randEmail({ provider });
+    describe('value is an array of strings', () => {
+      beforeEach(() => {
+        providers = ['someprovider', 'otherprovider', 'mailprovider'];
+      });
 
-      expect(result).toContain(`@${provider}.`);
-    });
+      it('should return a random email with passed providers', () => {
+        const result = randEmail({ providers });
+        const regExp = new RegExp((providers as string[]).join('|'), 'i');
 
-    it('should return valid email format', () => {
-      const result = randEmail({ provider });
+        expect(result).toMatch(regExp);
+      });
 
-      expect(result.match(validEmailRegex)).toBeTruthy();
+      it('should return valid email format', () => {
+        const result = randEmail({ providers });
+
+        expect(result.match(validEmailRegex)).toBeTruthy();
+      });
     });
   });
 
