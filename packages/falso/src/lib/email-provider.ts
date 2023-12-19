@@ -29,7 +29,7 @@ interface EmailProviderOptions extends FakeOptions {
 export function randEmailProvider<Options extends EmailProviderOptions = never>(
   options?: Options
 ) {
-  const providers = options?.providers ?? data;
+  const providers = options?.providers || data;
 
   if (isString(providers)) return providers;
 
