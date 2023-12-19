@@ -1,5 +1,6 @@
 import { FakeOptions, fake } from './core/core';
 import { data } from './email-provider.json';
+import { isString } from './utils/validators.utils';
 
 interface EmailProviderOptions extends FakeOptions {
   providers?: string | string[];
@@ -28,13 +29,9 @@ interface EmailProviderOptions extends FakeOptions {
 export function randEmailProvider<Options extends EmailProviderOptions = never>(
   options?: Options
 ) {
-  const providers = options?.providers;
-  let providerList = data;
+  const providers = options?.providers ?? data;
 
-  if (providers) {
-    if (!Array.isArray(providers)) return providers;
-    providerList = providers;
-  }
+  if (isString(providers)) return providers;
 
-  return fake(providerList, options);
+  return fake(providers, options);
 }
